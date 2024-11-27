@@ -488,6 +488,8 @@ describe("Reclaim Witness Fetch Tests", () => {
       const balance2 = await erc20.balanceOf(dapp.address);
       console.log(balance2);
       expect(balance2).to.equal(utils.parseEther("99.9"));
+
+      console.log("test");
     });
   });
 });
