@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   Proof,
   ReclaimProofRequest,
@@ -107,7 +106,7 @@ export default function Home() {
   //   publicData: {},
   // };
 
-  const testVerification = async () => {
+  const claimToken = async () => {
     // if (!proof) {
     //   return
     // }
@@ -161,18 +160,19 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
-        {/* ヘッダー */}
-        <div className="flex justify-center mb-6">
-          <Image
-            className="dark:invert"
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <Link href={"https://twitter.com/peaceandwhisky"}>
-            <p>Fujitaさんをフォローしてね</p>
+        <p className="my-2 font-semibold text-center">
+          FujitaさんのフォロワーはUSDCをclaimできるよ！
+        </p>
+
+        <div className="flex justify-center mb-6 ">
+          <Link href={"https://twitter.com/peaceandwhisky"} target="_blank">
+            <img
+              className="dark:invert mx-auto"
+              src="https://pbs.twimg.com/profile_images/1506991552664866822/nQveomWI_400x400.jpg"
+              alt="Next.js logo"
+              width={60}
+            />
+            <p className="mt-2">1. まずFujitaさんをフォローしてね</p>
           </Link>
         </div>
 
@@ -182,7 +182,7 @@ export default function Home() {
             onClick={connectWallet}
             className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors mb-4"
           >
-            ウォレット接続
+            2. ウォレット接続
           </button>
         ) : (
           <p className="text-center text-green-600 mb-4">
@@ -191,36 +191,44 @@ export default function Home() {
         )}
 
         {/* 検証要求取得ボタン */}
-        <button
-          onClick={getVerificationReq}
-          className="w-full bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-600 transition-colors mb-4"
-        >
-          Get Verification Request
-        </button>
+        {!requestUrl && (
+          <button
+            onClick={getVerificationReq}
+            className="w-full bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-600 transition-colors mb-4"
+          >
+            3. QRコード表示
+          </button>
+        )}
 
         {/* QRコード表示 */}
         {requestUrl && (
-          <div className="flex justify-center my-4">
-            <QRCode value={requestUrl} size={128} />
+          <div className="my-4">
+            <QRCode className="w-full" value={requestUrl} size={128} />
+            <p className="mt-2">
+              4. このQRコードを読んで、立ち上がったアプリでXにログインしてね
+            </p>
           </div>
         )}
 
         {/* 検証成功メッセージ */}
         {proof && (
           <div className="mt-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded text-center">
-            <h2 className="text-lg font-semibold">Verification Successful!</h2>
+            <h2 className="text-lg font-semibold">
+              zkProofの作成が完了したよ!
+            </h2>
           </div>
         )}
 
-        {/* 検証テストボタン */}
+        {/* Claimボタン */}
         {walletAddress && (
           <div className="mt-4">
             <button
-              onClick={testVerification}
+              onClick={claimToken}
               className="w-full bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition-colors"
             >
-              Test Verification
+              Claim Token
             </button>
+            <p>5. zkProofを提出してトークンを受け取ってね</p>
           </div>
         )}
         {/* トランザクションステータスの表示 */}
